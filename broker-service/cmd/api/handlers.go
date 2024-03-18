@@ -11,7 +11,7 @@ type JsonResponse struct {
 	Data    any    `json:"data,omitempty"`
 }
 
-func (app *Config) Broker(w http.ResponseWriter, r http.Request) {
+func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 	payload := JsonResponse{
 		Error:   false,
 		Message: "Hit the broker",
