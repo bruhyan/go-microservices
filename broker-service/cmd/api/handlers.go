@@ -10,5 +10,6 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 		Message: "Hit the broker",
 	}
 
+	// TODO: handle error
 	_ = app.WriteJson(w, http.StatusOK, payload)
 }
