@@ -70,3 +70,33 @@ func (user *User) GetAll() ([]*User, error) {
 
 	return users, nil
 }
+
+func (u *User) GetByEmail(email string) (*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	query := `select id, email, first_name, last_name, password, active, created_at, updated_at from users where email = $1`
+
+	row := db.QueryRowContext(ctx, query, email)
+
+	var user User
+
+	err := row.Scan(
+		&user.ID,
+		&user.Email,
+		&user.FirstName,
+		&user.LastName,
+		&user.Password,
+		&user.Active,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Println("Error scanning for user by email", err, email)
+		return nil, err
+	}
+
+	return &user, nil
+
+}
